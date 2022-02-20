@@ -1,16 +1,28 @@
+import 'dart:convert';
+import 'firebase_options.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'firebase_options.dart';
+import 'package:http/http.dart' as http;
 
-void main()  async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  DatabaseReference ref;
-  ref = FirebaseDatabase.instance.ref().child('product');
-  ref.set(100);
+  // DatabaseReference ref;
+  // ref = FirebaseDatabase.instance.ref().child('product');
+  // ref.push().set({'id': 100});
+
+  var url = Uri.parse(
+      'https://fir-for-practicing-default-rtdb.firebaseio.com/product.json');
+  http.post(url,
+      body: json.encode({
+        'id': 1,
+        'title': 'my title',
+        'body': 'my body ',
+      }));
 
   runApp(const MyApp());
 }
@@ -33,6 +45,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
