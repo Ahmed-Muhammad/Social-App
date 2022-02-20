@@ -1,6 +1,13 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  DatabaseReference ref;
+  ref = FirebaseDatabase.instance.ref().child('product');
+  ref.set(10);
+
   runApp(const MyApp());
 }
 
@@ -28,11 +35,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
