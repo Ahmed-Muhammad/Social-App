@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,15 +10,22 @@ class LoginCubit extends Cubit<LoginStates> {
 //------عشان اعرف استدعي ال cubit بطريقه بسيطه في اي مكان  -----
   static LoginCubit get(context) => BlocProvider.of(context);
 
-
-
   //-------------------------------login function --------------
   void userLogin({
     required String email,
     required String password,
   }) {
     emit(LoginLoadingState());
-
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    )
+        .then((value) {
+      emit(LoginSuccessState());
+    }).catchError((onError) {
+      emit(LoginErrorState());
+    });
   }
 
   //---------------Change Password Visibility -------------------

@@ -1,8 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_practicing/core/shared/components.dart';
+import 'package:firebase_practicing/layouts/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../core/Shared/components.dart';
 
 import '../../login/screens/login_screen.dart';
 import '../Widgets/register_cubit/register_cubit.dart';
@@ -27,21 +27,9 @@ class RegisterScreen extends StatelessWidget {
       create: (context) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit, RegisterStates>(
         listener: (context, state) {
-          // if (state is RegisterSuccessState) {
-          //   if (state.registerModel.status == true) {
-          //     CacheHelper.saveData(
-          //       key: 'token',
-          //       value: state.registerModel.data?.token,
-          //     );
-          //     navigateTo(context, const VerifyEmailScreen());
-          //     print(emailController.text.toString());
-          //     recivedEmail = emailController.text.toString();
-          //   } else {
-          //     showToast(
-          //         message: state.registerModel.message,
-          //         state: ToastStates.error);
-          //   }
-          // }
+          if (state is CreateUserSuccessState) {
+            navigateAndFinish(context, const HomeScreen());
+          }
         },
         builder: (context, state) {
           return Scaffold(
@@ -62,51 +50,40 @@ class RegisterScreen extends StatelessWidget {
                               ?.copyWith(
                                   fontSize: 45, fontWeight: FontWeight.w900),
                         ),
-                        const SizedBox(
-                          height: 15,
-                        ),
+                        const SizedBox(height: 15),
                         defaultFormField(
-                          controller: nameController,
-                          validate: (value) {
-                            if (value!.isEmpty) {
-                              return 'Name must not be empty';
-                            }
-                            return null;
-                          },
-                          label: 'Name',
-                          prefix: Icons.person,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
+                            controller: nameController,
+                            validate: (value) {
+                              if (value!.isEmpty) {
+                                return 'Name must not be empty';
+                              }
+                              return null;
+                            },
+                            label: 'Name',
+                            prefix: Icons.person),
+                        const SizedBox(height: 15),
                         defaultFormField(
-                          controller: phoneController,
-                          validate: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter Your phone';
-                            }
-                            return null;
-                          },
-                          label: 'Phone',
-                          prefix: Icons.phone,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
+                            controller: phoneController,
+                            validate: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter Your phone';
+                              }
+                              return null;
+                            },
+                            label: 'Phone',
+                            prefix: Icons.phone),
+                        const SizedBox(height: 15),
                         defaultFormField(
-                          controller: emailController,
-                          validate: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter Your Email Address';
-                            }
-                            return null;
-                          },
-                          label: 'Email Address',
-                          prefix: Icons.email_outlined,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
+                            controller: emailController,
+                            validate: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter Your Email Address';
+                              }
+                              return null;
+                            },
+                            label: 'Email Address',
+                            prefix: Icons.email_outlined),
+                        const SizedBox(height: 15),
                         defaultFormField(
                           controller: passwordController,
                           validate: (value) {
@@ -124,16 +101,16 @@ class RegisterScreen extends StatelessWidget {
                             RegisterCubit.get(context)
                                 .changePasswordVisibility();
                           },
-                          // onSubmit: (value) {
-                          //   if (formKey.currentState!.validate() == true) {
-                          //     RegisterCubit.get(context).userRegister(
-                          //       name: nameController.text,
-                          //       phone: phoneController.text,
-                          //       email: emailController.text,
-                          //       password: passwordController.text,
-                          //     );
-                          //   }
-                          // },
+                          onSubmit: (value) {
+                            if (formKey.currentState!.validate() == true) {
+                              RegisterCubit.get(context).userRegister(
+                                name: nameController.text,
+                                phone: phoneController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                            }
+                          },
                         ),
                         const SizedBox(
                           height: 15,
@@ -155,16 +132,16 @@ class RegisterScreen extends StatelessWidget {
                             RegisterCubit.get(context)
                                 .changePasswordVisibility();
                           },
-                          // onSubmit: (value) {
-                          //   if (formKey.currentState!.validate() == true) {
-                          //     RegisterCubit.get(context).userRegister(
-                          //       name: nameController.text,
-                          //       phone: phoneController.text,
-                          //       email: emailController.text,
-                          //       password: passwordController.text,
-                          //     );
-                          //   }
-                          // },
+                          onSubmit: (value) {
+                            if (formKey.currentState!.validate() == true) {
+                              RegisterCubit.get(context).userRegister(
+                                name: nameController.text,
+                                phone: phoneController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                            }
+                          },
                         ),
                         const SizedBox(height: 15),
                         ConditionalBuilder(
@@ -176,11 +153,11 @@ class RegisterScreen extends StatelessWidget {
                             text: 'Register',
                             function: () {
                               if (formKey.currentState!.validate() == true) {
-                                // RegisterCubit.get(context).userRegister(
-                                //     name: nameController.text,
-                                //     phone: phoneController.text,
-                                //     email: emailController.text,
-                                //     password: passwordController.text);
+                                RegisterCubit.get(context).userRegister(
+                                    name: nameController.text,
+                                    phone: phoneController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text);
                               }
                             },
                           ),

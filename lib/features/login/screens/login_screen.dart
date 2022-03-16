@@ -92,12 +92,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             LoginCubit.get(context).changePasswordVisibility();
                           },
                           onSubmit: (value) {
-                            // if (formKey.currentState!.validate() == true) {
-                            //   LoginCubit.get(context).userLogin(
-                            //     email: emailController.text,
-                            //     password: passwordController.text,
-                            //   );
-                            // }
+                            if (formKey.currentState!.validate() == true) {
+                              LoginCubit.get(context).userLogin(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                            }
                           },
                         ),
                         const SizedBox(
@@ -109,12 +109,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               const Center(child: CircularProgressIndicator()),
                           builder: (context) => defaultButton(
                             function: () {
-                              // if (formKey.currentState!.validate() == true) {
-                              //   LoginCubit.get(context).userLogin(
-                              //     email: emailController.text,
-                              //     password: passwordController.text,
-                              //   );
-                              // }
+                              if (formKey.currentState!.validate() == true) {
+                                LoginCubit.get(context).userLogin(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
+                              }
                             },
                             text: 'Login',
                             isUpperCase: true,

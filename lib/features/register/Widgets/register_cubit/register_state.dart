@@ -7,10 +7,11 @@ class RegisterLoadingState extends RegisterStates {}
 
 class RegisterSuccessState extends RegisterStates {}
 
-class RegisterErrorState extends RegisterStates {
-  final String error;
+class CreateUserSuccessState extends RegisterStates {}
+class CreateUserErrorState extends RegisterStates {}
 
-  RegisterErrorState(this.error);
+class RegisterErrorState extends RegisterStates {
+
 }
 
 //------------------Change Password Visibility State-----------

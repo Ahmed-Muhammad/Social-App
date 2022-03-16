@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_practicing/models/user%20model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 import 'register_state.dart';
 
@@ -12,6 +14,31 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
   //-----------------register user-----------------
 
+  void createUser({
+    required String email,
+    required String phone,
+    required String uid,
+    required String name,
+  }) {
+    emit(RegisterLoadingState());
+    UserModel userModel = UserModel(
+      name: name,
+      email: email,
+      phone: phone,
+      uid: uid,
+    );
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(uid)
+        .set(userModel.toMap())
+        .then((value) {
+      emit(CreateUserSuccessState());
+    }).catchError((onError) {
+      print(onError.toString());
+      emit(CreateUserErrorState());
+
+    });
+  }
 
   void userRegister({
     required String email,
@@ -20,7 +47,30 @@ class RegisterCubit extends Cubit<RegisterStates> {
     required String name,
   }) {
     emit(RegisterLoadingState());
-
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    )
+        .then(
+      (value) {
+        createUser(
+          email: email,
+          phone: phone,
+          uid: value.user!.uid,
+          name: name,
+        );
+        emit(RegisterSuccessState());
+        print(value.user!.email);
+        print(value.user!.uid);
+        print(value.user!.emailVerified);
+      },
+    ).catchError(
+      (error) {
+        print(error.toString);
+        emit(RegisterErrorState());
+      },
+    );
   }
 
   //-----------------Send Verify Email-----------------
