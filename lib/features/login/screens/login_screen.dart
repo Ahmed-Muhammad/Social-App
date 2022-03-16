@@ -1,11 +1,13 @@
+
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/shared/components.dart';
-import '../register/screen/register_screen.dart';
-import 'cubit/login_cubit.dart';
-import 'cubit/login_state.dart';
+import '../../../core/Shared/components.dart';
+import '../../register/screen/register_screen.dart';
+import '../Widgets/cubit/login_cubit.dart';
+import '../Widgets/cubit/login_state.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -16,9 +18,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   var emailController = TextEditingController();
-
   var passwordController = TextEditingController();
-
   late GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override

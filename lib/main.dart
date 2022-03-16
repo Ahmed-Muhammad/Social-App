@@ -1,10 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:firebase_practicing/features/login/login_screen.dart';
+import 'package:firebase_practicing/features/login/screens/login_screen.dart';
 
+import 'core/bloc_observer/bloc_observer.dart';
 import 'core/cache/cache_helper.dart';
 import 'core/themes/themes.dart';
-import 'core/web/API/dio_helper.dart';
-import 'features/login/cubit/bloc_observer.dart';
 import 'firebase_options.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -17,7 +16,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  DioHelper.init();
 
   await CacheHelper.init();
 
@@ -28,7 +26,7 @@ void main() async {
     blocObserver: MyBlocObserver(),
   );
 
-  // runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {

@@ -30,7 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.4
-  firebase_auth: ^3.3.10
+  firebase_auth: ^3.3.11
 
 dev_dependencies:
   flutter_test:

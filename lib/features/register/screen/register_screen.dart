@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/Shared/components.dart';
 
-import '../../login/login_screen.dart';
+import '../../login/screens/login_screen.dart';
 import '../Widgets/register_cubit/register_cubit.dart';
 import '../Widgets/register_cubit/register_state.dart';
-
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
@@ -57,11 +56,11 @@ class RegisterScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Register',
-                          style:
-                              Theme.of(context).textTheme.headline5?.copyWith(
-                                    fontSize: 45,
-                                    fontWeight: FontWeight.w900,
-                                  ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              ?.copyWith(
+                                  fontSize: 45, fontWeight: FontWeight.w900),
                         ),
                         const SizedBox(
                           height: 15,

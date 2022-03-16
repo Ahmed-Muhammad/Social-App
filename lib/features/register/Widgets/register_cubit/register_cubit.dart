@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/web/API/dio_helper.dart';
 
 import 'register_state.dart';
 
@@ -13,32 +12,16 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
   //-----------------register user-----------------
 
-  // RegisterModel? registerModel;
 
-  // void userRegister({
-  //   required String email,
-  //   required String phone,
-  //   required String password,
-  //   required String name,
-  // }) {
-  //   emit(RegisterLoadingState());
-  //   DioHelper.postData(
-  //     url: REGISTER,
-  //     data: {
-  //       'email': email,
-  //       'phone': phone,
-  //       'password': password,
-  //       'name': name,
-  //     },
-  //   ).then((value) {
-  //     registerModel = RegisterModel.fromJson(value.data);
-  //     emit(RegisterSuccessState(registerModel!));
-  //     sendVerifyEmail(email: email);
-  //   }).catchError((onError) {
-  //     print(onError.toString());
-  //     emit(RegisterErrorState(onError));
-  //   });
-  // }
+  void userRegister({
+    required String email,
+    required String phone,
+    required String password,
+    required String name,
+  }) {
+    emit(RegisterLoadingState());
+
+  }
 
   //-----------------Send Verify Email-----------------
 
