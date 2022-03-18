@@ -1,10 +1,10 @@
-
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_practicing/core/shared/components.dart';
+import 'package:firebase_practicing/layouts/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/Shared/components.dart';
+import '../../../core/cache/cache_helper.dart';
 import '../../register/screen/register_screen.dart';
 import '../Widgets/cubit/login_cubit.dart';
 import '../Widgets/cubit/login_state.dart';
@@ -26,7 +26,16 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is LoginErrorState) {
+            showToast(message: state.error, state: ToastStates.error);
+          }
+          if (state is LoginSuccessState) {
+           CacheHelper.saveData(key: 'uid', value: state.uid).then((value) {
+             navigateTo(context, const HomeScreen());
+           } );
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(),

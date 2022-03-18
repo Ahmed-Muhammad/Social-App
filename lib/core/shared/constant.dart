@@ -18,6 +18,7 @@
 
 String? token = '';
 String? recivedEmail ='';
+String? uid ='';
 // signOut(context){
 //
 //   CacheHelper.removeData(key: 'token').then((value) {

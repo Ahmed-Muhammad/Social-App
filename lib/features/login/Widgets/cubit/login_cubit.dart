@@ -22,9 +22,9 @@ class LoginCubit extends Cubit<LoginStates> {
       password: password,
     )
         .then((value) {
-      emit(LoginSuccessState());
+      emit(LoginSuccessState(value.user!.uid));
     }).catchError((onError) {
-      emit(LoginErrorState());
+      emit(LoginErrorState(onError));
     });
   }
 

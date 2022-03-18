@@ -1,6 +1,7 @@
-import 'package:firebase_practicing/features/register/Widgets/verify_email_cubit/verify_email_state.dart';
+import 'package:firebase_practicing/features/verify_email/Widgets/verify_email_cubit/verify_phone_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 
 class VerifyEmailCubit extends Cubit<VerifyEmailStates> {

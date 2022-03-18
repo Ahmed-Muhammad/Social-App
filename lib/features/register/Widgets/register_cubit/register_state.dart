@@ -21,9 +21,17 @@ class RegisterChangePasswordVisibilityState extends RegisterStates {}
 //------------------CacheHelperSaveDataState-----------
 class CacheHelperSaveDataState extends RegisterStates {}
 
-//-------------Verify ------------
-class LoadingVerifyEmailState extends RegisterStates {}
+//-------------Verify phone number-----------------------------
+class VerifyPhoneLoadingState extends RegisterStates {}
 
-class SuccessVerifyEmailState extends RegisterStates {}
+class VerifyPhoneSubmittedState extends RegisterStates {}
 
-class ErrorVerifyEmailState extends RegisterStates {}
+class VerifyPhoneErrorState extends RegisterStates
+{
+  final String? error;
+
+  VerifyPhoneErrorState(this.error);
+}
+
+class VerifyPhoneOTPState extends RegisterStates {}
+

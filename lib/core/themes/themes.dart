@@ -35,7 +35,13 @@ ThemeData darkTheme = ThemeData(
       fontSize: 18,
       fontWeight: FontWeight.w600,
       color: Colors.white,
+    ),
+    subtitle1: TextStyle(
+      fontSize: 14,
 
+      fontFamily: 'Jannah',
+      fontWeight: FontWeight.w600,
+      color: Colors.white,
     ),
   ),
 );
@@ -44,11 +50,17 @@ ThemeData lightTheme = ThemeData(
   textTheme: const TextTheme(
     bodyText1: TextStyle(
       fontSize: 18,
-
+      fontFamily: 'Jannah',
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),
-      ),
+    subtitle1: TextStyle(
+      fontSize: 16,
+      fontFamily: 'Jannah',
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+    ),
+  ),
   fontFamily: 'Jannah',
   primarySwatch: Colors.blue,
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -73,5 +85,4 @@ ThemeData lightTheme = ThemeData(
       unselectedItemColor: Colors.grey,
       backgroundColor: Colors.white,
       elevation: 20),
-
 );

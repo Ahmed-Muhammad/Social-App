@@ -1,9 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:firebase_practicing/core/shared/components.dart';
-import 'package:firebase_practicing/layouts/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../layouts/home/screens/home_screen.dart';
 import '../../login/screens/login_screen.dart';
 import '../Widgets/register_cubit/register_cubit.dart';
 import '../Widgets/register_cubit/register_state.dart';
@@ -30,6 +30,13 @@ class RegisterScreen extends StatelessWidget {
           if (state is CreateUserSuccessState) {
             navigateAndFinish(context, const HomeScreen());
           }
+          // if (state is CreateUserSuccessState) {
+          //   navigateAndFinish(
+          //       context,
+          //       VerifyPhoneScreen(
+          //         phoneNumber: phoneController.text,
+          //       ));
+          // }
         },
         builder: (context, state) {
           return Scaffold(
@@ -42,14 +49,12 @@ class RegisterScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Register',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5
-                              ?.copyWith(
-                                  fontSize: 45, fontWeight: FontWeight.w900),
-                        ),
+                        Text('Register',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                ?.copyWith(
+                                    fontSize: 45, fontWeight: FontWeight.w900)),
                         const SizedBox(height: 15),
                         defaultFormField(
                             controller: nameController,
@@ -67,6 +72,8 @@ class RegisterScreen extends StatelessWidget {
                             validate: (value) {
                               if (value!.isEmpty) {
                                 return 'Please enter Your phone';
+                              } else if (value.length < 11) {
+                                return 'Too short for phone number';
                               }
                               return null;
                             },
@@ -104,11 +111,12 @@ class RegisterScreen extends StatelessWidget {
                           onSubmit: (value) {
                             if (formKey.currentState!.validate() == true) {
                               RegisterCubit.get(context).userRegister(
-                                name: nameController.text,
-                                phone: phoneController.text,
-                                email: emailController.text,
-                                password: passwordController.text,
-                              );
+                                  name: nameController.text,
+                                  phone: phoneController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text);
+                              // RegisterCubit.get(context).submitPhoneNumber(
+                              //     phoneNumber: phoneController.text);
                             }
                           },
                         ),
@@ -135,11 +143,12 @@ class RegisterScreen extends StatelessWidget {
                           onSubmit: (value) {
                             if (formKey.currentState!.validate() == true) {
                               RegisterCubit.get(context).userRegister(
-                                name: nameController.text,
-                                phone: phoneController.text,
-                                email: emailController.text,
-                                password: passwordController.text,
-                              );
+                                  name: nameController.text,
+                                  phone: phoneController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text);
+                              // RegisterCubit.get(context).submitPhoneNumber(
+                              //     phoneNumber: phoneController.text);
                             }
                           },
                         ),
@@ -149,18 +158,22 @@ class RegisterScreen extends StatelessWidget {
                           fallback: (context) => const Center(
                             child: CircularProgressIndicator(),
                           ),
-                          builder: (context) => defaultButton(
-                            text: 'Register',
-                            function: () {
-                              if (formKey.currentState!.validate() == true) {
-                                RegisterCubit.get(context).userRegister(
-                                    name: nameController.text,
-                                    phone: phoneController.text,
-                                    email: emailController.text,
-                                    password: passwordController.text);
-                              }
-                            },
-                          ),
+                          builder: (context) {
+                            return defaultButton(
+                              text: 'Register',
+                              function: () {
+                                if (formKey.currentState!.validate() == true) {
+                                  RegisterCubit.get(context).userRegister(
+                                      name: nameController.text,
+                                      phone: phoneController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text);
+                                  // RegisterCubit.get(context).submitPhoneNumber(
+                                  //     phoneNumber: phoneController.text);
+                                }
+                              },
+                            );
+                          },
                         ),
                         const SizedBox(
                           height: 2,

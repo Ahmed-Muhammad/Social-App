@@ -7,23 +7,30 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 Widget articleBuilder(list) => ConditionalBuilder(
       condition: list.length > 0,
-      fallback: (context) => const Center(child: CircularProgressIndicator()),
+      fallback: (context) =>
+          const Center(child: CircularProgressIndicator()),
       builder: (context) => ListView.separated(
         physics: const BouncingScrollPhysics(),
         itemCount: 8,
         separatorBuilder: (context, index) => const Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Divider(
-                color: Colors.grey, endIndent: .5, thickness: 1, height: 5)),
-        itemBuilder: (context, index) => buildArticleItem(list[index], context),
+                color: Colors.grey,
+                endIndent: .5,
+                thickness: 1,
+                height: 5)),
+        itemBuilder: (context, index) =>
+            buildArticleItem(list[index], context),
       ),
     );
 
-Widget articleBuilder2(list, context, {isSearch = false}) => ConditionalBuilder(
+Widget articleBuilder2(list, context, {isSearch = false}) =>
+    ConditionalBuilder(
       condition: list.length > 0,
       builder: (context) => ListView.separated(
         physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) => buildArticleItem(list[index], context),
+        itemBuilder: (context, index) =>
+            buildArticleItem(list[index], context),
         separatorBuilder: (context, index) => myDivider(),
         itemCount: 10,
       ),
@@ -140,7 +147,7 @@ Widget defaultFormField({
   Function(String)? onSubmit,
   Function(String)? onChanged,
   GestureTapCallback? onTap,
-   String? Function(String?)? validate,
+  String? Function(String?)? validate,
   required String? label,
   required IconData? prefix,
   bool isClickable = true,
@@ -195,9 +202,7 @@ Widget defaultButton({
     );
 
 Widget myDivider() => Padding(
-      padding: const EdgeInsetsDirectional.only(
-        start: 20.0,end: 20
-      ),
+      padding: const EdgeInsetsDirectional.only(start: 20.0, end: 20),
       child: Container(
         width: double.infinity,
         height: 1.0,
@@ -213,12 +218,12 @@ void navigateTo(context, widget) => Navigator.push(
       ),
     );
 
-void navigateAndFinish(context, widget) => Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => widget,
-      ),
-    );
+void navigateAndFinish(context, widget) {
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => widget),
+  );
+}
 
 //---------SHOW TOAST AND CHANGE IT'S COLOR-------------
 void showToast({required String? message, required ToastStates state}) {
@@ -263,13 +268,17 @@ Widget progress(context) {
       height: 80,
       width: 80,
       child: LiquidCircularProgressIndicator(
-        value: .80, // Defaults to 0.5.
-        valueColor: const AlwaysStoppedAnimation(Colors.blue), // Defaults to the current Theme's accentColor.
-        backgroundColor: Colors.white, // Defaults to the current Theme's backgroundColor.
+        value: .80,
+        // Defaults to 0.5.
+        valueColor: const AlwaysStoppedAnimation(Colors.blue),
+        // Defaults to the current Theme's accentColor.
+        backgroundColor: Colors.white,
+        // Defaults to the current Theme's backgroundColor.
         borderColor: Colors.red,
         borderWidth: 1.0,
-        direction: Axis.vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
-        center:  const Text("Loading..."),
+        direction: Axis.vertical,
+        // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
+        center: const Text("Loading..."),
       ),
     ),
   );
@@ -277,12 +286,18 @@ Widget progress(context) {
 
 //--------------Capitalized Extension--------------------
 extension StringCasingExtension on String {
-  String toCapitalized() => length > 0 ?'${this[0].toUpperCase()}${substring(1).toLowerCase()}':'';
-  String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
+  String toCapitalized() => length > 0
+      ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}'
+      : '';
+
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ')
+      .split(' ')
+      .map((str) => str.toCapitalized())
+      .join(' ');
 }
 
-
-Widget buildListProduct(context,{bool isOldPrice = true,required model}) {
+Widget buildListProduct(context,
+    {bool isOldPrice = true, required model}) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: SizedBox(
@@ -329,7 +344,9 @@ Widget buildListProduct(context,{bool isOldPrice = true,required model}) {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      fontSize: 13, height: 1.5, fontWeight: FontWeight.bold),
+                      fontSize: 13,
+                      height: 1.5,
+                      fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 Row(
@@ -348,7 +365,9 @@ Widget buildListProduct(context,{bool isOldPrice = true,required model}) {
                     //product old Price
                     if (model.product!.discount != 0 && isOldPrice)
                       Text(
-                        isOldPrice ? model.product!.oldPrice!.toString() : '',
+                        isOldPrice
+                            ? model.product!.oldPrice!.toString()
+                            : '',
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 14,
@@ -368,11 +387,11 @@ Widget buildListProduct(context,{bool isOldPrice = true,required model}) {
                       icon: const Icon(
                         // ShopCubit.get(context).favorites[model.product!.id]
                         //     ? Icons.favorite_outlined:
-                             Icons.favorite_border,
+                        Icons.favorite_border,
                         size: 25,
                         // color: ShopCubit.get(context)
                         //     .favorites[model.product!.id]//     ?
-                         color: Colors.red,
+                        color: Colors.red,
                         //     : Colors.grey,
                       ),
                     )
@@ -386,4 +405,3 @@ Widget buildListProduct(context,{bool isOldPrice = true,required model}) {
     ),
   );
 }
-
