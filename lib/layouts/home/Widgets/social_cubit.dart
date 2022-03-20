@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../chats/chats_screen.dart';
 import '../../feeds/feeds_screen.dart';
+import '../../new_post/new_post.dart';
 import '../../settings/settings_screen.dart';
 import '../../users/users_screen.dart';
 
@@ -34,6 +35,7 @@ class SocialCubit extends Cubit<SocialState> {
   List<Widget> screens = const [
     FeedsScreen(),
     ChatsScreen(),
+    NewPostScreen(),
     UsersScreen(),
     SettingsScreen(),
   ];
@@ -41,12 +43,17 @@ class SocialCubit extends Cubit<SocialState> {
   var titles = [
     'Home',
     'Chats',
+    'New Post',
     'Users',
     'Settings',
   ];
 
   void changeBottomNav(int index) {
-    currentIndex = index;
-    emit(SocialChangeBottomNavState());
+    if (index == 2) {
+      emit(SocialNewPostState());
+    } else {
+      currentIndex = index;
+      emit(SocialChangeBottomNavState());
+    }
   }
 }

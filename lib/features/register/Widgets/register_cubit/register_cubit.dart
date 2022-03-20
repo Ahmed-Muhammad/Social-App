@@ -19,6 +19,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
     required String phone,
     required String password,
     required String name,
+
   }) {
     emit(RegisterLoadingState());
     FirebaseAuth.instance
@@ -31,8 +32,11 @@ class RegisterCubit extends Cubit<RegisterStates> {
         createUser(
           email: email,
           phone: phone,
+          image: 'https://scontent.fcai21-2.fna.fbcdn.net/v/t1.6435-9/36137473_1672721836179430_3456862169725927424_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=9tYeesdPuIQAX_nct-b&_nc_ht=scontent.fcai21-2.fna&oh=00_AT_wYM67ZUr4i1_q3WIfrJiwIzcEaIsW6YPg5hvUhRhMuQ&oe=625A1564',
           uid: value.user!.uid,
           name: name,
+          cover:
+          'https://images.pexels.com/photos/256273/pexels-photo-256273.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
         );
 
         print(value.user!.email);
@@ -52,14 +56,21 @@ class RegisterCubit extends Cubit<RegisterStates> {
     required String? phone,
     required String? uid,
     required String? name,
+    required String? cover,
+    required String? image,
   }) {
     emit(RegisterLoadingState());
     UserModel userModel = UserModel(
-        name: name,
-        email: email,
-        phone: phone,
-        uid: uid,
-        isEmailVerified: false);
+      name: name,
+      bio: 'Write your bio ...',
+      image: 'https://scontent.fcai21-2.fna.fbcdn.net/v/t1.6435-9/36137473_1672721836179430_3456862169725927424_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=9tYeesdPuIQAX_nct-b&_nc_ht=scontent.fcai21-2.fna&oh=00_AT_wYM67ZUr4i1_q3WIfrJiwIzcEaIsW6YPg5hvUhRhMuQ&oe=625A1564',
+      email: email,
+      phone: phone,
+      uid: uid,
+      isEmailVerified: false,
+      cover:
+          'https://images.pexels.com/photos/256273/pexels-photo-256273.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
+    );
     FirebaseFirestore.instance
         .collection('Users')
         .doc(uid)
@@ -77,9 +88,8 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
   void changePasswordVisibility() {
     obscureText = !obscureText;
-    suffix = obscureText
-        ? Icons.visibility_outlined
-        : Icons.visibility_off_outlined;
+    suffix =
+        obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined;
     emit(RegisterChangePasswordVisibilityState());
   }
 

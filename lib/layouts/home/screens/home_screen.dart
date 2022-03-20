@@ -1,7 +1,10 @@
+import 'package:firebase_practicing/core/shared/components.dart';
 import 'package:firebase_practicing/core/shared/icon_broken.dart';
 import 'package:firebase_practicing/layouts/home/Widgets/social_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../new_post/new_post.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,7 +12,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialState>(
-      listener: (context, state) {},
+      listener: (context, state)
+      {
+        if (state is SocialNewPostState) {
+          navigateTo(context, const NewPostScreen());
+        }
+      },
       builder: (context, state) {
         var cubit = SocialCubit.get(context);
         return Scaffold(
@@ -41,9 +49,12 @@ class HomeScreen extends StatelessWidget {
               BottomNavigationBarItem(
                   icon: Icon(IconBroken.Chat), label: 'Chat'),
               BottomNavigationBarItem(
+                  icon: Icon(IconBroken.Paper_Upload), label: 'Post'),
+              BottomNavigationBarItem(
                   icon: Icon(IconBroken.Location), label: 'Location'),
               BottomNavigationBarItem(
                   icon: Icon(IconBroken.Setting), label: 'Settings'),
+
             ],
           ),
           body: cubit.screens[cubit.currentIndex],

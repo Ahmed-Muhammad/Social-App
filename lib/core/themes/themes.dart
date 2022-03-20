@@ -51,7 +51,7 @@ ThemeData lightTheme = ThemeData(
     bodyText1: TextStyle(
       fontSize: 18,
       fontFamily: 'Jannah',
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w900,
       color: Colors.black,
     ),
     subtitle1: TextStyle(

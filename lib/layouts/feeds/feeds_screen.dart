@@ -12,7 +12,7 @@ class FeedsScreen extends StatelessWidget {
         Card(
           margin: const EdgeInsets.all(8),
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          elevation: 20,
+          elevation: 5,
           child: Stack(
             alignment: AlignmentDirectional.bottomEnd,
             children: [
@@ -38,260 +38,294 @@ class FeedsScreen extends StatelessWidget {
             ],
           ),
         ),
-        Card(
-          margin: const EdgeInsets.symmetric(horizontal: 8),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          elevation: 20,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
+        ListView.separated(
+          separatorBuilder: (context, index) => const SizedBox(height : 8),
+          itemCount: 10,
+          shrinkWrap: true,
+          physics : const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return buildPostItem(context);
+          },
+        ),
+        const SizedBox(height: 10,)
+      ]),
+    );
+  }
+
+  Widget buildPostItem(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      elevation: 5,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 25,
-                      backgroundImage: NetworkImage(
-                          'https://scontent.fcai21-2.fna.fbcdn.net/v/t1.6435-9/36137473_1672721836179430_3456862169725927424_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=9tYeesdPuIQAX_nct-b&tn=vOLAikUZ_sGc5L8h&_nc_ht=scontent.fcai21-2.fna&oh=00_AT8Oo-xDechHRInJ_IBubDRLxcFftLHFysjrw5LF-iGpKg&oe=625A1564'),
-                    ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                const CircleAvatar(
+                  radius: 25,
+                  backgroundImage: NetworkImage(
+                      'https://scontent.fcai21-2.fna.fbcdn.net/v/t1.6435-9/36137473_1672721836179430_3456862169725927424_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=9tYeesdPuIQAX_nct-b&tn=vOLAikUZ_sGc5L8h&_nc_ht=scontent.fcai21-2.fna&oh=00_AT8Oo-xDechHRInJ_IBubDRLxcFftLHFysjrw5LF-iGpKg&oe=625A1564'),
+                ),
+                const SizedBox(width: 15),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Ahmad M. Hassanien',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        height: 1.3),
-                              ),
-                              const SizedBox(width: 3),
-                              const Icon(
-                                Icons.check_circle,
-                                color: Colors.blue,
-                                size: 17,
-                              ),
-                            ],
-                          ),
                           Text(
-                            'Jun 21, 2022 at 11:00 pm',
+                            'Ahmad M. Hassanien',
                             style: Theme.of(context)
                                 .textTheme
-                                .caption
-                                ?.copyWith(height: 1.3),
+                                .bodyText1
+                                ?.copyWith(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    height: 1.3),
+                          ),
+                          const SizedBox(width: 3),
+                          const Icon(
+                            Icons.check_circle,
+                            color: Colors.blue,
+                            size: 17,
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(width: 15),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.more_horiz,
-                          color: Colors.blue,
-                          size: 20,
-                        ))
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Container(
-                    width: double.infinity,
-                    height: 1,
-                    color: Colors.grey[300],
-                  ),
-                ),
-                Text(
-                  "Lorem Ipsum is simply dummy text of the printing and "
-                  "typesetting industry. Lorem Ipsum has been the industry's "
-                  "standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book standard dummy.",
-                  textAlign: TextAlign.justify,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      ?.copyWith(color: Colors.black, height: 1.2),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Wrap(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 5),
-                        child: SizedBox(
-                          height: 20,
-                          child: MaterialButton(
-                            minWidth: 1,
-                            padding: EdgeInsets.zero,
-                            onPressed: () {},
-                            child: Text(
-                              '#Software_developments',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  ?.copyWith(color: Colors.blue, fontSize: 14),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 5),
-                        child: SizedBox(
-                          height: 20,
-                          child: MaterialButton(
-                            minWidth: 1,
-                            padding: EdgeInsets.zero,
-                            onPressed: () {},
-                            child: Text(
-                              '#Mobile_developments',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  ?.copyWith(color: Colors.blue, fontSize: 14),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 5),
-                        child: SizedBox(
-                          height: 20,
-                          child: MaterialButton(
-                            minWidth: 1,
-                            padding: EdgeInsets.zero,
-                            onPressed: () {},
-                            child: Text(
-                              '#Flutter_developments',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  ?.copyWith(color: Colors.blue, fontSize: 14),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 5),
-                        child: SizedBox(
-                          height: 20,
-                          child: MaterialButton(
-                            minWidth: 1,
-                            padding: EdgeInsets.zero,
-                            onPressed: () {},
-                            child: Text(
-                              '#Flutter_developments',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  ?.copyWith(color: Colors.blue, fontSize: 14),
-                            ),
-                          ),
-                        ),
+                      Text(
+                        'Jun 21, 2022 at 11:00 pm',
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            ?.copyWith(height: 1.3),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                Container(
-                  width: double.infinity,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: NetworkImage(
-                        'https://rb.gy/7gzo0q',
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Row(
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                IconBroken.Heart,
-                                size: 20,
-                                color: Colors.red,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                '120',
-                                style: Theme.of(context).textTheme.caption,
-                              ),
-                            ],
-                          ),
+                const SizedBox(width: 15),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.more_horiz,
+                      color: Colors.blue,
+                      size: 20,
+                    ))
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Container(
+                width: double.infinity,
+                height: 1,
+                color: Colors.grey[300],
+              ),
+            ),
+            Text(
+              "Lorem Ipsum is simply dummy text of the printing and "
+              "typesetting industry. Lorem Ipsum has been the industry's "
+              "standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book standard dummy.",
+              textAlign: TextAlign.justify,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  ?.copyWith(color: Colors.black, height: 1.2),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: Wrap(
+                children: [
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 5),
+                    child: SizedBox(
+                      height: 20,
+                      child: MaterialButton(
+                        minWidth: 1,
+                        padding: EdgeInsets.zero,
+                        onPressed: () {},
+                        child: Text(
+                          '#Software_developments',
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption
+                              ?.copyWith(color: Colors.blue, fontSize: 14),
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Icon(
-                                IconBroken.Chat,
-                                size: 20,
-                                color: Colors.amber,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                '752 comments',
-                                style: Theme.of(context).textTheme.caption,
-                              ),
-                            ],
-                          ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 5),
+                    child: SizedBox(
+                      height: 20,
+                      child: MaterialButton(
+                        minWidth: 1,
+                        padding: EdgeInsets.zero,
+                        onPressed: () {},
+                        child: Text(
+                          '#Mobile_developments',
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption
+                              ?.copyWith(color: Colors.blue, fontSize: 14),
                         ),
                       ),
                     ),
-                  ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 5),
+                    child: SizedBox(
+                      height: 20,
+                      child: MaterialButton(
+                        minWidth: 1,
+                        padding: EdgeInsets.zero,
+                        onPressed: () {},
+                        child: Text(
+                          '#Flutter_developments',
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption
+                              ?.copyWith(color: Colors.blue, fontSize: 14),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 5),
+                    child: SizedBox(
+                      height: 20,
+                      child: MaterialButton(
+                        minWidth: 1,
+                        padding: EdgeInsets.zero,
+                        onPressed: () {},
+                        child: Text(
+                          '#Flutter_developments',
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption
+                              ?.copyWith(color: Colors.blue, fontSize: 14),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              width: double.infinity,
+              height: 150,
+              decoration: BoxDecoration(
+                image: const DecorationImage(
+                  image: NetworkImage(
+                    'https://rb.gy/7gzo0q',
+                  ),
+                  fit: BoxFit.cover,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Container(
-                    width: double.infinity,
-                    height: 1,
-                    color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            IconBroken.Heart,
+                            size: 20,
+                            color: Colors.red,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            '120',
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 15,
-                      backgroundImage: NetworkImage(
-                          'https://scontent.fcai21-2.fna.fbcdn.net/v/t1.6435-9/36137473_1672721836179430_3456862169725927424_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=9tYeesdPuIQAX_nct-b&tn=vOLAikUZ_sGc5L8h&_nc_ht=scontent.fcai21-2.fna&oh=00_AT8Oo-xDechHRInJ_IBubDRLxcFftLHFysjrw5LF-iGpKg&oe=625A1564'),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Icon(
+                            IconBroken.Chat,
+                            size: 20,
+                            color: Colors.amber,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            '752 comments',
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(width: 15),
-                    Text(
-                      'Write a comment ...',
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          ?.copyWith(height: 1.3),
-                    )
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Container(
+                width: double.infinity,
+                height: 1,
+                color: Colors.grey[300],
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {},
+                    child: Row(children: [
+                      const CircleAvatar(
+                        radius: 18,
+                        backgroundImage: NetworkImage(
+                            'https://scontent.fcai21-2.fna.fbcdn.net/v/t1.6435-9/36137473_1672721836179430_3456862169725927424_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=9tYeesdPuIQAX_nct-b&tn=vOLAikUZ_sGc5L8h&_nc_ht=scontent.fcai21-2.fna&oh=00_AT8Oo-xDechHRInJ_IBubDRLxcFftLHFysjrw5LF-iGpKg&oe=625A1564'),
+                      ),
+                      const SizedBox(width: 15),
+                      Text(
+                        'Write a comment ...',
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            ?.copyWith(height: 1.3),
+                      )
+                    ]),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Icon(
+                        IconBroken.Heart,
+                        size: 20,
+                        color: Colors.red,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        'Like',
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
         ),
-        const SizedBox(
-          height: 150,
-        ),
-      ]),
+      ),
     );
   }
 }
