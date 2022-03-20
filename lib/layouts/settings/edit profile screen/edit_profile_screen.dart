@@ -1,7 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_practicing/core/shared/components.dart';
 import 'package:firebase_practicing/core/shared/icon_broken.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,15 +8,21 @@ import '../../home/Widgets/social_cubit.dart';
 // ignore: must_be_immutable
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({Key? key}) : super(key: key);
+
   TextEditingController nameController = TextEditingController();
   TextEditingController bioController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialState>(
       listener: (context, state) {},
       builder: (context, state) {
-        var userModel = SocialCubit.get(context).userModel;
+        var cubit = SocialCubit.get(context);
+        var userModel = cubit.userModel;
+        var profileImage = cubit.profileImage;
+        var coverImage = cubit.coverImage;
+
         return Scaffold(
           appBar: defaultAppbar(
             context: context,
@@ -54,8 +58,13 @@ class EditProfileScreen extends StatelessWidget {
                                     topRight: Radius.circular(8),
                                   ),
                                   image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(userModel!.cover!)),
+                                    fit: BoxFit.cover,
+                                    image:
+                                    coverImage == null
+                                      ? NetworkImage(userModel!.cover!)
+                                        : FileImage(coverImage) as
+                                      ImageProvider,
+                                  ),
                                 ),
                               ),
                               //--------cover picture edit button-----------
@@ -70,12 +79,15 @@ class EditProfileScreen extends StatelessWidget {
                                     size: 25,
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: ()
+                                {
+                                  cubit.getCoverImage() ;
+                                },
                               ),
                             ],
                           ),
                         ),
-                        //--------profile picture------
+                        //--------profile picture----------------
                         CircleAvatar(
                           //حدود الصوره الداخليه البيضاء
                           radius: 105,
@@ -86,11 +98,14 @@ class EditProfileScreen extends StatelessWidget {
                             alignment: Alignment.bottomRight,
                             children: [
                               CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                  userModel.image!,
-                                ),
+                                backgroundImage: 
+                                profileImage == null 
+                                ? NetworkImage(userModel!.image!)
+                                : FileImage(profileImage) as ImageProvider,
+                                
                                 radius: 100,
                               ),
+                              //--------profile picture edit button-----------
                               IconButton(
                                 splashRadius: 1,
                                 icon: CircleAvatar(
@@ -102,7 +117,10 @@ class EditProfileScreen extends StatelessWidget {
                                     size: 25,
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: ()
+                                {
+                                  cubit.getProfileImage();
+                                },
                               ),
                             ],
                           ),
@@ -120,7 +138,7 @@ class EditProfileScreen extends StatelessWidget {
                       right: 15,
                     ),
                     child: defaultFormField(
-                      hint: userModel.name,
+                      hint: userModel!.name,
                       validate: (value) {
                         if (value!.isEmpty) {
                           return 'Update your name';
@@ -165,7 +183,4 @@ class EditProfileScreen extends StatelessWidget {
       },
     );
   }
-
-
-
 }
