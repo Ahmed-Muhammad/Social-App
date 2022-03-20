@@ -19,13 +19,24 @@ class SocialCubit extends Cubit<SocialState> {
 
   UserModel? userModel;
 
-  void getUserData() {
+  void getUserData()
+  {
     emit(SocialGetUserLoadingState());
-    FirebaseFirestore.instance.collection('Users').doc(uid).get().then((value) {
-      value.data();
+
+    FirebaseFirestore
+        .instance
+        .collection('Users')
+        .doc(uid)
+        .get()
+        .then((value)
+    {
+      print('User Information: => ${value.data()}');
+
       userModel = UserModel.fromJson(value.data());
       emit(SocialGetUserSuccessState());
-    }).catchError((error) {
+
+    }).catchError((error)
+    {
       emit(SocialGetUserErrorState(error.toString()));
       print('Error getUserData => ' + error.toString());
     });
@@ -49,6 +60,7 @@ class SocialCubit extends Cubit<SocialState> {
   ];
 
   void changeBottomNav(int index) {
+
     if (index == 2) {
       emit(SocialNewPostState());
     } else {

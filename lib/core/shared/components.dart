@@ -1,5 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_practicing/core/shared/icon_broken.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
@@ -7,30 +9,23 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 Widget articleBuilder(list) => ConditionalBuilder(
       condition: list.length > 0,
-      fallback: (context) =>
-          const Center(child: CircularProgressIndicator()),
+      fallback: (context) => const Center(child: CircularProgressIndicator()),
       builder: (context) => ListView.separated(
         physics: const BouncingScrollPhysics(),
         itemCount: 8,
         separatorBuilder: (context, index) => const Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Divider(
-                color: Colors.grey,
-                endIndent: .5,
-                thickness: 1,
-                height: 5)),
-        itemBuilder: (context, index) =>
-            buildArticleItem(list[index], context),
+                color: Colors.grey, endIndent: .5, thickness: 1, height: 5)),
+        itemBuilder: (context, index) => buildArticleItem(list[index], context),
       ),
     );
 
-Widget articleBuilder2(list, context, {isSearch = false}) =>
-    ConditionalBuilder(
+Widget articleBuilder2(list, context, {isSearch = false}) => ConditionalBuilder(
       condition: list.length > 0,
       builder: (context) => ListView.separated(
         physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) =>
-            buildArticleItem(list[index], context),
+        itemBuilder: (context, index) => buildArticleItem(list[index], context),
         separatorBuilder: (context, index) => myDivider(),
         itemCount: 10,
       ),
@@ -145,6 +140,7 @@ Widget defaultFormField({
   required TextEditingController controller,
   TextInputType? type,
   Function(String)? onSubmit,
+  String? hint,
   Function(String)? onChanged,
   GestureTapCallback? onTap,
   String? Function(String?)? validate,
@@ -154,8 +150,15 @@ Widget defaultFormField({
   IconData? suffix,
   void Function()? suffixPressed,
   bool obscureText = false,
+  int? maxLength,
 }) =>
     TextFormField(
+      inputFormatters: [
+        FilteringTextInputFormatter.deny(RegExp('[0-9]'))
+      ],
+      autocorrect: true,
+      enableSuggestions: true,
+      maxLength: maxLength,
       obscureText: obscureText,
       enabled: isClickable,
       controller: controller,
@@ -165,6 +168,10 @@ Widget defaultFormField({
       onTap: onTap,
       validator: validate,
       decoration: InputDecoration(
+        counter: const Offstage(),
+        hintText: hint,
+        contentPadding: const EdgeInsets.symmetric(vertical: 10),
+        hintStyle: TextStyle(color: Colors.grey[400]),
         labelText: label,
         prefixIcon: Icon(prefix),
         suffixIcon: IconButton(
@@ -176,10 +183,15 @@ Widget defaultFormField({
     );
 
 Widget defaultTextButton({
-  required String text,
+  required String? text,
   required void Function()? function,
 }) =>
-    TextButton(onPressed: function, child: Text(text.toUpperCase()));
+    TextButton(
+        onPressed: function,
+        child: Text(
+          text!,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ));
 
 Widget defaultButton({
   double width = double.infinity,
@@ -286,9 +298,8 @@ Widget progress(context) {
 
 //--------------Capitalized Extension--------------------
 extension StringCasingExtension on String {
-  String toCapitalized() => length > 0
-      ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}'
-      : '';
+  String toCapitalized() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
 
   String toTitleCase() => replaceAll(RegExp(' +'), ' ')
       .split(' ')
@@ -296,8 +307,7 @@ extension StringCasingExtension on String {
       .join(' ');
 }
 
-Widget buildListProduct(context,
-    {bool isOldPrice = true, required model}) {
+Widget buildListProduct(context, {bool isOldPrice = true, required model}) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: SizedBox(
@@ -344,9 +354,7 @@ Widget buildListProduct(context,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      fontSize: 13,
-                      height: 1.5,
-                      fontWeight: FontWeight.bold),
+                      fontSize: 13, height: 1.5, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 Row(
@@ -365,9 +373,7 @@ Widget buildListProduct(context,
                     //product old Price
                     if (model.product!.discount != 0 && isOldPrice)
                       Text(
-                        isOldPrice
-                            ? model.product!.oldPrice!.toString()
-                            : '',
+                        isOldPrice ? model.product!.oldPrice!.toString() : '',
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 14,
@@ -405,3 +411,22 @@ Widget buildListProduct(context,
     ),
   );
 }
+
+PreferredSizeWidget? defaultAppbar({
+  required BuildContext context,
+  String? title,
+  List<Widget>? actions,
+}) =>
+    AppBar(
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(
+          IconBroken.Arrow___Left_2,
+        ),
+      ),
+      actions: actions,
+      titleSpacing: 5.0,
+      title: Text(title!),
+    );

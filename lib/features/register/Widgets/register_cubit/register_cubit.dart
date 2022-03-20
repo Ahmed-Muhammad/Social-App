@@ -58,7 +58,8 @@ class RegisterCubit extends Cubit<RegisterStates> {
     required String? name,
     required String? cover,
     required String? image,
-  }) {
+  })
+  {
     emit(RegisterLoadingState());
     UserModel userModel = UserModel(
       name: name,
@@ -75,9 +76,12 @@ class RegisterCubit extends Cubit<RegisterStates> {
         .collection('Users')
         .doc(uid)
         .set(userModel.toMap())
-        .then((value) {
+        .then((value)
+    {
       emit(CreateUserSuccessState());
-    }).catchError((onError) {
+
+    }).catchError((onError)
+    {
       print(onError.toString());
       emit(CreateUserErrorState());
     });

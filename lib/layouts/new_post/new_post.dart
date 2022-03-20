@@ -1,3 +1,4 @@
+import 'package:firebase_practicing/core/shared/components.dart';
 import 'package:flutter/material.dart';
 
 class NewPostScreen extends StatelessWidget {
@@ -6,7 +7,10 @@ class NewPostScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Post'),),
+      appBar: defaultAppbar(
+        context: context,
+        title: 'New Post',
+      ),
     );
   }
 }

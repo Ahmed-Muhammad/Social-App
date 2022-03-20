@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../home/Widgets/social_cubit.dart';
+import 'edit profile screen/edit_profile_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -59,10 +60,11 @@ class SettingsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              //-------------profile Name--------------------------
               const SizedBox(
                 height: 5,
               ),
+              //-------------profile Name--------------------------
+
               Text(
                 userModel.name!,
                 style: Theme.of(context).textTheme.bodyText1?.copyWith(
@@ -202,7 +204,9 @@ class SettingsScreen extends StatelessWidget {
                     child: OutlinedButton(
 
                       child: const Icon(IconBroken.Edit , size: 16,),
-                      onPressed: (){},
+                      onPressed: (){
+                        navigateTo(context,  EditProfileScreen());
+                      },
                     ),
                   ),
 
