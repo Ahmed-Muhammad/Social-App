@@ -9,14 +9,14 @@ class UserModel {
   bool? isEmailVerified;
 
   UserModel({
-    required this.name,
-    required this.bio,
-    required this.image,
-    required this.cover,
-    required this.email,
-    required this.phone,
-    required this.uid,
-    required this.isEmailVerified,
+     this.name,
+     this.bio,
+     this.image,
+     this.cover,
+     this.email,
+     this.phone,
+     this.uid,
+     this.isEmailVerified,
   });
 
   UserModel.fromJson(Map<String, dynamic>? json) {

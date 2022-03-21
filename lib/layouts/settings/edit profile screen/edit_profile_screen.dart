@@ -11,7 +11,7 @@ class EditProfileScreen extends StatelessWidget {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController bioController = TextEditingController();
-
+  TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,15 @@ class EditProfileScreen extends StatelessWidget {
             context: context,
             title: 'Edit Profile',
             actions: [
-              defaultTextButton(text: 'Update'.toUpperCase(), function: () {}),
+              defaultTextButton(
+                  text: 'Update'.toUpperCase(),
+                  function: () {
+                    SocialCubit.get(context).updateUserData(
+                      name: nameController.text,
+                      phone: phoneController.text,
+                      bio: bioController.text,
+                    );
+                  }),
               const SizedBox(width: 10)
             ],
           ),
@@ -59,11 +67,10 @@ class EditProfileScreen extends StatelessWidget {
                                   ),
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image:
-                                    coverImage == null
-                                      ? NetworkImage(userModel!.cover!)
-                                        : FileImage(coverImage) as
-                                      ImageProvider,
+                                    image: coverImage == null
+                                        ? NetworkImage(userModel!.cover!)
+                                        : FileImage(coverImage)
+                                            as ImageProvider,
                                   ),
                                 ),
                               ),
@@ -72,16 +79,16 @@ class EditProfileScreen extends StatelessWidget {
                                 splashRadius: 1,
                                 icon: CircleAvatar(
                                   radius: 25,
-                                  backgroundColor: Colors.grey.withOpacity(.5),
+                                  backgroundColor:
+                                      Colors.grey.withOpacity(.5),
                                   child: const Icon(
                                     IconBroken.Camera,
                                     color: Colors.black,
                                     size: 25,
                                   ),
                                 ),
-                                onPressed: ()
-                                {
-                                  cubit.getCoverImage() ;
+                                onPressed: () {
+                                  cubit.getCoverImage();
                                 },
                               ),
                             ],
@@ -98,11 +105,10 @@ class EditProfileScreen extends StatelessWidget {
                             alignment: Alignment.bottomRight,
                             children: [
                               CircleAvatar(
-                                backgroundImage: 
-                                profileImage == null 
-                                ? NetworkImage(userModel!.image!)
-                                : FileImage(profileImage) as ImageProvider,
-                                
+                                backgroundImage: profileImage == null
+                                    ? NetworkImage(userModel!.image!)
+                                    : FileImage(profileImage)
+                                        as ImageProvider,
                                 radius: 100,
                               ),
                               //--------profile picture edit button-----------
@@ -110,15 +116,15 @@ class EditProfileScreen extends StatelessWidget {
                                 splashRadius: 1,
                                 icon: CircleAvatar(
                                   radius: 25,
-                                  backgroundColor: Colors.grey.withOpacity(.5),
+                                  backgroundColor:
+                                      Colors.grey.withOpacity(.5),
                                   child: const Icon(
                                     IconBroken.Camera,
                                     color: Colors.black,
                                     size: 25,
                                   ),
                                 ),
-                                onPressed: ()
-                                {
+                                onPressed: () {
                                   cubit.getProfileImage();
                                 },
                               ),
@@ -128,7 +134,7 @@ class EditProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  //------------Name & Bio edit---------------
+                  //------------edit Name ------------
                   const SizedBox(
                     height: 20,
                   ),
@@ -151,6 +157,7 @@ class EditProfileScreen extends StatelessWidget {
                       prefix: IconBroken.User1,
                     ),
                   ),
+              //------------edit Bio------------
                   const SizedBox(
                     height: 10,
                   ),
@@ -169,12 +176,34 @@ class EditProfileScreen extends StatelessWidget {
                         return null;
                       },
                       type: TextInputType.name,
-                      controller: nameController,
+                      controller: bioController,
                       label: 'Bio',
                       prefix: IconBroken.Info_Circle,
                     ),
                   ),
                   const SizedBox(height: 5),
+                  //------------edit phone------------
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 15,
+                      right: 15,
+                    ),
+                    child: defaultFormField(
+                      maxLength: 20,
+                      hint: userModel.phone,
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return 'Update your phone';
+                        }
+                        return null;
+                      },
+                      type: TextInputType.phone,
+                      controller: phoneController,
+                      label: 'phone',
+                      prefix: IconBroken.Call,
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -6,7 +6,8 @@ import 'package:firebase_practicing/models/user%20model/user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart'
+    as firebase_storage;
 
 import '../../chats/chats_screen.dart';
 import '../../feeds/feeds_screen.dart';
@@ -21,21 +22,7 @@ class SocialCubit extends Cubit<SocialState> {
 
   static SocialCubit get(context) => BlocProvider.of(context);
 
-  UserModel? userModel;
-
-  void getUserData() {
-    emit(SocialGetUserLoadingState());
-
-    FirebaseFirestore.instance.collection('Users').doc(uid).get().then((value) {
-      print('User Information: => ${value.data()}');
-
-      userModel = UserModel.fromJson(value.data());
-      emit(SocialGetUserSuccessState());
-    }).catchError((error) {
-      emit(SocialGetUserErrorState(error.toString()));
-      print('Error getUserData => ' + error.toString());
-    });
-  }
+//---------------change Bottom Navigation bar--------------------
 
   int currentIndex = 0;
   List<Widget> screens = const [
@@ -63,6 +50,29 @@ class SocialCubit extends Cubit<SocialState> {
     }
   }
 
+//---------------Get User Data--------------------
+
+  UserModel? userModel;
+
+  void getUserData() {
+    emit(SocialGetUserLoadingState());
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((value) {
+      // print('User Information: => ${value.data()}');
+
+      userModel = UserModel.fromJson(value.data());
+      emit(SocialGetUserSuccessState());
+    }).catchError((error) {
+      emit(SocialGetUserErrorState(error.toString()));
+      print('Error getUserData => ' + error.toString());
+    });
+  }
+
+//---------------get Profile Image--------------------
   File? profileImage;
 
   Future getProfileImage() async {
@@ -78,6 +88,7 @@ class SocialCubit extends Cubit<SocialState> {
     }
   }
 
+//---------------get Cover Image--------------------
   File? coverImage;
 
   Future getCoverImage() async {
@@ -93,30 +104,80 @@ class SocialCubit extends Cubit<SocialState> {
     }
   }
 
+//---------------upload Profile Image--------------------
+
+  String? profileImageUrl = '';
+
   void uploadProfileImage() {
     firebase_storage.FirebaseStorage.instance
         //ref() عشان ادخل جواه المسار | child() عشان اشوف هيتحرك ازاي جواه
         .ref()
         .child(
-            'Users/Profile Images/${Uri.file(profileImage!.path).pathSegments.last}')
+            'users/Profile Images/${Uri.file(profileImage!.path).pathSegments.last}')
         .putFile(profileImage!)
         .then((value) {
-      value.ref.getDownloadURL().then((value) {
-        print(value);
-      }).catchError((error) {});
-    }).catchError((error) {});
+      value.ref.getDownloadURL().then((downloadURL) {
+        emit(SocialUpdateProfileImageSuccessState());
+        print("getDownloadURL ==>" + downloadURL);
+        profileImageUrl = downloadURL;
+      }).catchError((error) {
+        emit(SocialUpdateProfileImageErrorState());
+      });
+    }).catchError((error) {
+      emit(SocialUpdateProfileImageErrorState());
+    });
   }
 
+//---------------upload Cover Image--------------------
+
+  String? coverImageUrl = '';
   void uploadCoverImage() {
     firebase_storage.FirebaseStorage.instance
         //ref() عشان ادخل جواه المسار | child() عشان اشوف هيتحرك ازاي جواه
         .ref()
         .child(
-            'Users/Profile Images/${Uri.file(coverImage!.path).pathSegments.last}')
+            'users/Cover Images/${Uri.file(coverImage!.path).pathSegments.last}')
         .putFile(coverImage!)
         .then((value) {
-      value.ref.getDownloadURL().then((value) {}).catchError((error) {});
-    }).catchError((error) {});
+      value.ref.getDownloadURL().then((downloadURL) {
+        emit(SocialUpdateCoverImageSuccessState());
+        print("getDownloadURL ==>" + downloadURL);
+        coverImageUrl = downloadURL;
+      }).catchError((error) {
+        emit(SocialUpdateCoverImageErrorState());
+      });
+    }).catchError((error) {
+      emit(SocialUpdateCoverImageErrorState());
+    });
+  }
 
+//---------------Update User Data--------------------
+
+  void updateUserData({
+    required String? name,
+    required String? phone,
+    required String? bio,
+  }) {
+
+
+    UserModel userModel = UserModel(
+      name: name,
+      phone: phone,
+      uid: uid,
+      bio: bio,
+      isEmailVerified: false,
+      image: profileImageUrl,
+      cover: coverImageUrl,
+    );
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel.uid!)
+        .update(userModel.toMap())
+        .then((value) {
+      getUserData();
+    }).catchError((error) {
+      emit(SocialUserUpdateErrorState());
+    });
   }
 }

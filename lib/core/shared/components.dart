@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:firebase_practicing/core/shared/icon_broken.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
@@ -153,9 +152,7 @@ Widget defaultFormField({
   int? maxLength,
 }) =>
     TextFormField(
-      inputFormatters: [
-        FilteringTextInputFormatter.deny(RegExp('[0-9]'))
-      ],
+
       autocorrect: true,
       enableSuggestions: true,
       maxLength: maxLength,
