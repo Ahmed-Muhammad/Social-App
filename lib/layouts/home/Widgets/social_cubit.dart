@@ -50,6 +50,28 @@ class SocialCubit extends Cubit<SocialState> {
     }
   }
 
+//---------------Get User Data Cache--------------------
+//   getUserDataCache({
+//     bool? image,
+//     bool? cover,
+//     bool? name,
+//     bool? bio,
+//   }) {
+//     CacheHelper.saveData(key: 'image', value: userModel!.image!);
+//     CacheHelper.saveData(key: 'cover', value: userModel!.cover!);
+//     CacheHelper.saveData(key: 'name', value: userModel!.name!);
+//     CacheHelper.saveData(key: 'bio', value: userModel!.bio!);
+//     if (image == true) {
+//       return cacheImage = CacheHelper.getData(key: 'image');
+//     } else if (cover == true) {
+//       return cacheImage = CacheHelper.getData(key: 'cover');
+//     } else if (name == true) {
+//       return cacheImage = CacheHelper.getData(key: 'name');
+//     } else {
+//       return cacheImage = CacheHelper.getData(key: 'bio');
+//     }
+//   }
+
 //---------------Get User Data--------------------
 
   UserModel? userModel;
@@ -72,15 +94,24 @@ class SocialCubit extends Cubit<SocialState> {
     });
   }
 
-//---------------get Profile Image--------------------
+//---------------Get Profile Image--------------------
   File? profileImage;
 
-  Future getProfileImage() async {
+  Future getProfileImage({
+    required String? name,
+    required String? phone,
+    required String? bio,
+  }) async {
     final XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
     );
     if (pickedFile != null) {
       profileImage = File(pickedFile.path);
+      uploadProfileImage(
+        name: name,
+        phone: phone,
+        bio: bio,
+      );
       emit(SocialProfileImagePickedSuccessState());
     } else {
       print('No image selected ');
@@ -88,27 +119,14 @@ class SocialCubit extends Cubit<SocialState> {
     }
   }
 
-//---------------get Cover Image--------------------
-  File? coverImage;
-
-  Future getCoverImage() async {
-    final XFile? pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-    );
-    if (pickedFile != null) {
-      coverImage = File(pickedFile.path);
-      emit(SocialCoverImagePickedSuccessState());
-    } else {
-      print('No image selected ');
-      emit(SocialCoverImagerPickedErrorState());
-    }
-  }
-
-//---------------upload Profile Image--------------------
-
+//---------------Upload Profile Image--------------------
   String? profileImageUrl = '';
 
-  void uploadProfileImage() {
+  void uploadProfileImage({
+    required String? name,
+    required String? phone,
+    required String? bio,
+  }) {
     firebase_storage.FirebaseStorage.instance
         //ref() عشان ادخل جواه المسار | child() عشان اشوف هيتحرك ازاي جواه
         .ref()
@@ -119,7 +137,13 @@ class SocialCubit extends Cubit<SocialState> {
       value.ref.getDownloadURL().then((downloadURL) {
         emit(SocialUpdateProfileImageSuccessState());
         print("getDownloadURL ==>" + downloadURL);
-        profileImageUrl = downloadURL;
+
+        updateUserData(
+          name: name,
+          phone: phone,
+          bio: bio,
+          image: downloadURL,
+        );
       }).catchError((error) {
         emit(SocialUpdateProfileImageErrorState());
       });
@@ -128,10 +152,34 @@ class SocialCubit extends Cubit<SocialState> {
     });
   }
 
-//---------------upload Cover Image--------------------
+//---------------Get Cover Image --------------------
+  File? coverImage;
 
-  String? coverImageUrl = '';
-  void uploadCoverImage() {
+  Future getCoverImage({
+    required String? name,
+    required String? phone,
+    required String? bio,
+  }) async {
+    final XFile? pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      coverImage = File(pickedFile.path);
+      uploadCoverImage(name: name, phone: phone, bio: bio);
+      emit(SocialCoverImagePickedSuccessState());
+    } else {
+      print('No image selected ');
+      emit(SocialCoverImagerPickedErrorState());
+    }
+  }
+
+//---------------Upload Cover Image ---------------
+
+  void uploadCoverImage({
+    required String? name,
+    required String? phone,
+    required String? bio,
+  }) {
     firebase_storage.FirebaseStorage.instance
         //ref() عشان ادخل جواه المسار | child() عشان اشوف هيتحرك ازاي جواه
         .ref()
@@ -142,7 +190,12 @@ class SocialCubit extends Cubit<SocialState> {
       value.ref.getDownloadURL().then((downloadURL) {
         emit(SocialUpdateCoverImageSuccessState());
         print("getDownloadURL ==>" + downloadURL);
-        coverImageUrl = downloadURL;
+        updateUserData(
+          name: name,
+          phone: phone,
+          bio: bio,
+          cover: downloadURL,
+        );
       }).catchError((error) {
         emit(SocialUpdateCoverImageErrorState());
       });
@@ -157,27 +210,29 @@ class SocialCubit extends Cubit<SocialState> {
     required String? name,
     required String? phone,
     required String? bio,
+    String? image,
+    String? cover,
   }) {
-
-
-    UserModel userModel = UserModel(
+    emit(SocialUserUpdateLoadingState());
+    UserModel model = UserModel(
       name: name,
       phone: phone,
-      uid: uid,
+      uid: userModel!.uid!,
+      image: image ?? userModel!.image!,
+      cover: cover ?? userModel!.cover!,
+      email: userModel!.email!,
       bio: bio,
       isEmailVerified: false,
-      image: profileImageUrl,
-      cover: coverImageUrl,
     );
-
     FirebaseFirestore.instance
         .collection('users')
-        .doc(userModel.uid!)
-        .update(userModel.toMap())
+        .doc(model.uid!)
+        .update(model.toMap())
         .then((value) {
       getUserData();
     }).catchError((error) {
       emit(SocialUserUpdateErrorState());
+      print(error.toString());
     });
   }
 }

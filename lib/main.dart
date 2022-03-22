@@ -27,12 +27,14 @@ void main() async {
   Widget? selectedScreen;
 //uid is saved in constant
   uid = CacheHelper.getData(key: 'uid');
+  print("uid in main => $uid )" );
 
   if (uid != null) {
     selectedScreen = const HomeScreen();
   } else {
     selectedScreen = const LoginScreen();
   }
+
   BlocOverrides.runZoned(
     () {
       runApp(MyApp(

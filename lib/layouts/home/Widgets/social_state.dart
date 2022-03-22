@@ -35,3 +35,4 @@ class SocialUpdateCoverImageSuccessState extends SocialState {}
 class SocialUpdateCoverImageErrorState extends SocialState {}
 
 class SocialUserUpdateErrorState extends SocialState {}
+class SocialUserUpdateLoadingState extends SocialState {}

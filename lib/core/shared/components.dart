@@ -8,23 +8,30 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 Widget articleBuilder(list) => ConditionalBuilder(
       condition: list.length > 0,
-      fallback: (context) => const Center(child: CircularProgressIndicator()),
+      fallback: (context) =>
+          const Center(child: CircularProgressIndicator()),
       builder: (context) => ListView.separated(
         physics: const BouncingScrollPhysics(),
         itemCount: 8,
         separatorBuilder: (context, index) => const Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Divider(
-                color: Colors.grey, endIndent: .5, thickness: 1, height: 5)),
-        itemBuilder: (context, index) => buildArticleItem(list[index], context),
+                color: Colors.grey,
+                endIndent: .5,
+                thickness: 1,
+                height: 5)),
+        itemBuilder: (context, index) =>
+            buildArticleItem(list[index], context),
       ),
     );
 
-Widget articleBuilder2(list, context, {isSearch = false}) => ConditionalBuilder(
+Widget articleBuilder2(list, context, {isSearch = false}) =>
+    ConditionalBuilder(
       condition: list.length > 0,
       builder: (context) => ListView.separated(
         physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) => buildArticleItem(list[index], context),
+        itemBuilder: (context, index) =>
+            buildArticleItem(list[index], context),
         separatorBuilder: (context, index) => myDivider(),
         itemCount: 10,
       ),
@@ -152,7 +159,6 @@ Widget defaultFormField({
   int? maxLength,
 }) =>
     TextFormField(
-
       autocorrect: true,
       enableSuggestions: true,
       maxLength: maxLength,
@@ -295,8 +301,9 @@ Widget progress(context) {
 
 //--------------Capitalized Extension--------------------
 extension StringCasingExtension on String {
-  String toCapitalized() =>
-      length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
+  String toCapitalized() => length > 0
+      ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}'
+      : '';
 
   String toTitleCase() => replaceAll(RegExp(' +'), ' ')
       .split(' ')
@@ -304,7 +311,8 @@ extension StringCasingExtension on String {
       .join(' ');
 }
 
-Widget buildListProduct(context, {bool isOldPrice = true, required model}) {
+Widget buildListProduct(context,
+    {bool isOldPrice = true, required model}) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: SizedBox(
@@ -351,7 +359,9 @@ Widget buildListProduct(context, {bool isOldPrice = true, required model}) {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      fontSize: 13, height: 1.5, fontWeight: FontWeight.bold),
+                      fontSize: 13,
+                      height: 1.5,
+                      fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 Row(
@@ -370,7 +380,9 @@ Widget buildListProduct(context, {bool isOldPrice = true, required model}) {
                     //product old Price
                     if (model.product!.discount != 0 && isOldPrice)
                       Text(
-                        isOldPrice ? model.product!.oldPrice!.toString() : '',
+                        isOldPrice
+                            ? model.product!.oldPrice!.toString()
+                            : '',
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 14,

@@ -23,6 +23,10 @@ class EditProfileScreen extends StatelessWidget {
         var profileImage = cubit.profileImage;
         var coverImage = cubit.coverImage;
 
+        nameController.text = cubit.userModel!.name!;
+        phoneController.text = cubit.userModel!.phone!;
+        bioController.text = cubit.userModel!.bio!;
+
         return Scaffold(
           appBar: defaultAppbar(
             context: context,
@@ -45,6 +49,10 @@ class EditProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  if (state is SocialUserUpdateLoadingState)
+                    const LinearProgressIndicator(),
+                  if (state is SocialUserUpdateLoadingState)
+                    const SizedBox(height: 10),
                   //------------cover & profile picture edit---------------
                   SizedBox(
                     height: 350,
@@ -88,7 +96,14 @@ class EditProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  cubit.getCoverImage();
+                                  cubit.getCoverImage(
+                                    phone: SocialCubit.get(context)
+                                        .userModel!.phone,
+                                    bio: SocialCubit.get(context)
+                                        .userModel!.bio,
+                                    name: SocialCubit.get(context)
+                                        .userModel!.name,
+                                  );
                                 },
                               ),
                             ],
@@ -125,7 +140,14 @@ class EditProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  cubit.getProfileImage();
+                                  cubit.getProfileImage(
+                                    phone: SocialCubit.get(context)
+                                        .userModel!.phone,
+                                    bio: SocialCubit.get(context)
+                                        .userModel!.bio,
+                                    name: SocialCubit.get(context)
+                                        .userModel!.name,
+                                  );
                                 },
                               ),
                             ],
@@ -157,7 +179,7 @@ class EditProfileScreen extends StatelessWidget {
                       prefix: IconBroken.User1,
                     ),
                   ),
-              //------------edit Bio------------
+                  //------------edit Bio------------
                   const SizedBox(
                     height: 10,
                   ),
@@ -167,7 +189,7 @@ class EditProfileScreen extends StatelessWidget {
                       right: 15,
                     ),
                     child: defaultFormField(
-                      maxLength: 20,
+                      maxLength: 40,
                       hint: userModel.bio,
                       validate: (value) {
                         if (value!.isEmpty) {
