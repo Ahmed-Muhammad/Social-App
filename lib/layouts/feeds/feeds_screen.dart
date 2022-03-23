@@ -1,58 +1,77 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:firebase_practicing/core/shared/icon_broken.dart';
+import 'package:firebase_practicing/models/post%20model/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../home/Widgets/social_cubit.dart';
 
 class FeedsScreen extends StatelessWidget {
   const FeedsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(children: [
-        Card(
-          margin: const EdgeInsets.all(8),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          elevation: 5,
-          child: Stack(
-            alignment: AlignmentDirectional.bottomEnd,
-            children: [
-              const Image(
-                image: NetworkImage(
-                  'https://img.freepik'
-                  '.com/free-vector/pop-art-girl-pointing-something_1441-108.jpg?t=st=1647592427~exp=1647593027~hmac=1581e36c8ed28aee564255387d82185ec93feafb83d3470de036f5da4b812d2b&w=996',
+    return BlocConsumer<SocialCubit, SocialState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = SocialCubit.get(context);
+        return ConditionalBuilder(
+          condition: cubit.posts.isNotEmpty,
+          builder: (context) => SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(children: [
+              Card(
+                margin: const EdgeInsets.all(8),
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                elevation: 5,
+                child: Stack(
+                  alignment: AlignmentDirectional.bottomEnd,
+                  children: [
+                    const Image(
+                      image: NetworkImage(
+                        'https://img.freepik'
+                        '.com/free-vector/pop-art-girl-pointing-something_1441-108.jpg?t=st=1647592427~exp=1647593027~hmac=1581e36c8ed28aee564255387d82185ec93feafb83d3470de036f5da4b812d2b&w=996',
+                      ),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: 250,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Communicate',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(color: Colors.white),
+                      ),
+                    )
+                  ],
                 ),
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 250,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Communicate',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(color: Colors.white),
-                ),
+              ListView.separated(
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 8),
+                itemCount: cubit.posts.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return buildPostItem(context, cubit.posts[index]);
+                },
+              ),
+              const SizedBox(
+                height: 10,
               )
-            ],
+            ]),
           ),
-        ),
-        ListView.separated(
-          separatorBuilder: (context, index) => const SizedBox(height : 8),
-          itemCount: 10,
-          shrinkWrap: true,
-          physics : const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return buildPostItem(context);
-          },
-        ),
-        const SizedBox(height: 10,)
-      ]),
+          fallback: (context) =>
+              const Center(child: CircularProgressIndicator()),
+        );
+      },
     );
   }
 
-  Widget buildPostItem(BuildContext context) {
+  Widget buildPostItem(BuildContext context, CreatePostModel model) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8),
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -60,13 +79,13 @@ class FeedsScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage(
-                      'https://scontent.fcai21-2.fna.fbcdn.net/v/t1.6435-9/36137473_1672721836179430_3456862169725927424_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=9tYeesdPuIQAX_nct-b&tn=vOLAikUZ_sGc5L8h&_nc_ht=scontent.fcai21-2.fna&oh=00_AT8Oo-xDechHRInJ_IBubDRLxcFftLHFysjrw5LF-iGpKg&oe=625A1564'),
+                  backgroundImage: NetworkImage(model.image!),
                 ),
                 const SizedBox(width: 15),
                 Expanded(
@@ -76,7 +95,7 @@ class FeedsScreen extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Ahmad M. Hassanien',
+                            model.name!,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
@@ -94,7 +113,7 @@ class FeedsScreen extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        'Jun 21, 2022 at 11:00 pm',
+                        model.dateTime!,
                         style: Theme.of(context)
                             .textTheme
                             .caption
@@ -122,108 +141,110 @@ class FeedsScreen extends StatelessWidget {
               ),
             ),
             Text(
-              "Lorem Ipsum is simply dummy text of the printing and "
-              "typesetting industry. Lorem Ipsum has been the industry's "
-              "standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book standard dummy.",
+              model.text!,
               textAlign: TextAlign.justify,
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
                   ?.copyWith(color: Colors.black, height: 1.2),
             ),
+            const SizedBox(height: 10),
             SizedBox(
               width: double.infinity,
               child: Wrap(
-                children: [
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 5),
-                    child: SizedBox(
-                      height: 20,
-                      child: MaterialButton(
-                        minWidth: 1,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        child: Text(
-                          '#Software_developments',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              ?.copyWith(color: Colors.blue, fontSize: 14),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 5),
-                    child: SizedBox(
-                      height: 20,
-                      child: MaterialButton(
-                        minWidth: 1,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        child: Text(
-                          '#Mobile_developments',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              ?.copyWith(color: Colors.blue, fontSize: 14),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 5),
-                    child: SizedBox(
-                      height: 20,
-                      child: MaterialButton(
-                        minWidth: 1,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        child: Text(
-                          '#Flutter_developments',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              ?.copyWith(color: Colors.blue, fontSize: 14),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 5),
-                    child: SizedBox(
-                      height: 20,
-                      child: MaterialButton(
-                        minWidth: 1,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {},
-                        child: Text(
-                          '#Flutter_developments',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              ?.copyWith(color: Colors.blue, fontSize: 14),
-                        ),
-                      ),
-                    ),
-                  ),
+                children: const [
+                  // Padding(
+                  //   padding: const EdgeInsetsDirectional.only(end: 5),
+                  //   child: SizedBox(
+                  //     height: 20,
+                  //     child: MaterialButton(
+                  //       minWidth: 1,
+                  //       padding: EdgeInsets.zero,
+                  //       onPressed: () {},
+                  //       child: Text(
+                  //         '#Software_developments',
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .caption
+                  //             ?.copyWith(color: Colors.blue, fontSize: 14),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsetsDirectional.only(end: 5),
+                  //   child: SizedBox(
+                  //     height: 20,
+                  //     child: MaterialButton(
+                  //       minWidth: 1,
+                  //       padding: EdgeInsets.zero,
+                  //       onPressed: () {},
+                  //       child: Text(
+                  //         '#Mobile_developments',
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .caption
+                  //             ?.copyWith(color: Colors.blue, fontSize: 14),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsetsDirectional.only(end: 5),
+                  //   child: SizedBox(
+                  //     height: 20,
+                  //     child: MaterialButton(
+                  //       minWidth: 1,
+                  //       padding: EdgeInsets.zero,
+                  //       onPressed: () {},
+                  //       child: Text(
+                  //         '#Flutter_developments',
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .caption
+                  //             ?.copyWith(color: Colors.blue, fontSize: 14),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsetsDirectional.only(end: 5),
+                  //   child: SizedBox(
+                  //     height: 20,
+                  //     child: MaterialButton(
+                  //       minWidth: 1,
+                  //       padding: EdgeInsets.zero,
+                  //       onPressed: () {},
+                  //       child: Text(
+                  //         '#Flutter_developments',
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .caption
+                  //             ?.copyWith(color: Colors.blue, fontSize: 14),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
-            const SizedBox(height: 10),
-            Container(
-              width: double.infinity,
-              height: 150,
-              decoration: BoxDecoration(
-                image: const DecorationImage(
-                  image: NetworkImage(
-                    'https://rb.gy/7gzo0q',
+            if (model.postImage != '')
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Container(
+                  width: double.infinity,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        model.postImage!,
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  fit: BoxFit.cover,
                 ),
-                borderRadius: BorderRadius.circular(4),
               ),
-            ),
             Row(
               children: [
                 Expanded(
@@ -240,7 +261,7 @@ class FeedsScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            '120',
+                            '0',
                             style: Theme.of(context).textTheme.caption,
                           ),
                         ],
@@ -263,7 +284,7 @@ class FeedsScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            '752 comments',
+                            '0 comments',
                             style: Theme.of(context).textTheme.caption,
                           ),
                         ],
@@ -287,10 +308,10 @@ class FeedsScreen extends StatelessWidget {
                   child: InkWell(
                     onTap: () {},
                     child: Row(children: [
-                      const CircleAvatar(
+                       CircleAvatar(
                         radius: 18,
-                        backgroundImage: NetworkImage(
-                            'https://scontent.fcai21-2.fna.fbcdn.net/v/t1.6435-9/36137473_1672721836179430_3456862169725927424_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=9tYeesdPuIQAX_nct-b&tn=vOLAikUZ_sGc5L8h&_nc_ht=scontent.fcai21-2.fna&oh=00_AT8Oo-xDechHRInJ_IBubDRLxcFftLHFysjrw5LF-iGpKg&oe=625A1564'),
+                        backgroundImage: NetworkImage(SocialCubit.get
+                          (context).userModel!.image!),
                       ),
                       const SizedBox(width: 15),
                       Text(
