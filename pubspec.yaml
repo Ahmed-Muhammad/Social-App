@@ -35,6 +35,9 @@ dependencies:
   firebase_storage: ^10.2.9
   image_picker: ^0.8.4+11
   path: ^1.8.0
+  comment_tree: ^0.3.0
+
+
 
 dev_dependencies:
   flutter_test:

@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
           if (state is LoginSuccessState) {
            CacheHelper.saveData(key: 'uid', value: state.uid).then((value) {
-             navigateTo(context, const HomeScreen());
+             navigateAndFinish(context, const HomeScreen());
            } );
           }
         },

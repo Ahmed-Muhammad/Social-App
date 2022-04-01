@@ -27,7 +27,7 @@ void main() async {
   Widget? selectedScreen;
 //uid is saved in constant
   uid = CacheHelper.getData(key: 'uid');
-  print("uid in main => $uid )" );
+  print("uid in main => $uid )");
 
   if (uid != null) {
     selectedScreen = const HomeScreen();
@@ -54,7 +54,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => SocialCubit()..getUserData()..getPosts(),
+          create: (context) => SocialCubit()
+            ..getUserData()
+            ..getPosts()
+
         ),
       ],
       child: MaterialApp(

@@ -16,9 +16,14 @@
 // import '../cache/cache_helper.dart';
 
 
+import '../../models/message model/message_model.dart';
+import '../../models/post model/user_model.dart';
+
 String? token = '';
 String? recivedEmail ='';
 String? uid ='';
+ List<CreatePostModel> POSTS = [];
+ List<MessageModel> MESSAGES = [];
 
 // String? cacheImage ='';
 // String? cacheCover ='';

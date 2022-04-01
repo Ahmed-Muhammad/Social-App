@@ -175,13 +175,14 @@ Widget defaultFormField({
         hintText: hint,
         contentPadding: const EdgeInsets.symmetric(vertical: 10),
         hintStyle: TextStyle(color: Colors.grey[400]),
+        border: const OutlineInputBorder(),
         labelText: label,
         prefixIcon: Icon(prefix),
         suffixIcon: IconButton(
           onPressed: suffixPressed,
           icon: Icon(suffix),
         ),
-        border: const OutlineInputBorder(),
+
       ),
     );
 

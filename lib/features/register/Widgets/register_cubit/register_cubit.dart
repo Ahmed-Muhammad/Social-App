@@ -41,11 +41,11 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
         print(value.user!.email);
         print(value.user!.uid);
-        print(value.user!.emailVerified);
+
       },
     ).catchError(
       (error) {
-        print(error.toString);
+        print(error);
         emit(RegisterErrorState());
       },
     );
@@ -73,7 +73,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
           'https://images.pexels.com/photos/256273/pexels-photo-256273.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
     );
     FirebaseFirestore.instance
-        .collection('Users')
+        .collection('users')
         .doc(uid)
         .set(userModel.toMap())
         .then((value)
@@ -82,7 +82,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
     }).catchError((onError)
     {
-      print(onError.toString());
+      print(onError);
       emit(CreateUserErrorState());
     });
   }

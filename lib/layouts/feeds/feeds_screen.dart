@@ -1,22 +1,31 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_practicing/core/shared/components.dart';
+import 'package:firebase_practicing/core/shared/constant.dart';
 import 'package:firebase_practicing/core/shared/icon_broken.dart';
 import 'package:firebase_practicing/models/post%20model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../home/Widgets/social_cubit.dart';
+import 'comment_page.dart';
 
 class FeedsScreen extends StatelessWidget {
-  const FeedsScreen({Key? key}) : super(key: key);
+  const FeedsScreen( {Key? key} ) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialState>(
-      listener: (context, state) {},
+      listener: (context, state)
+      {
+        if ( state is SocialGetPostsLoadingState ) {
+          SocialCubit.get(context).getPosts();
+        }
+      },
       builder: (context, state) {
         var cubit = SocialCubit.get(context);
+        print('length in feeds   ${POSTS.length}');
         return ConditionalBuilder(
-          condition: cubit.posts.isNotEmpty,
+          condition: POSTS.isNotEmpty ,
           builder: (context) => SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(children: [
@@ -52,11 +61,11 @@ class FeedsScreen extends StatelessWidget {
               ListView.separated(
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 8),
-                itemCount: cubit.posts.length,
+                itemCount: POSTS.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return buildPostItem(context, cubit.posts[index]);
+                  return buildPostItem(context, POSTS[index], index);
                 },
               ),
               const SizedBox(
@@ -71,7 +80,8 @@ class FeedsScreen extends StatelessWidget {
     );
   }
 
-  Widget buildPostItem(BuildContext context, CreatePostModel model) {
+  Widget buildPostItem(
+      BuildContext context, CreatePostModel model, index) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8),
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -149,85 +159,85 @@ class FeedsScreen extends StatelessWidget {
                   ?.copyWith(color: Colors.black, height: 1.2),
             ),
             const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: Wrap(
-                children: const [
-                  // Padding(
-                  //   padding: const EdgeInsetsDirectional.only(end: 5),
-                  //   child: SizedBox(
-                  //     height: 20,
-                  //     child: MaterialButton(
-                  //       minWidth: 1,
-                  //       padding: EdgeInsets.zero,
-                  //       onPressed: () {},
-                  //       child: Text(
-                  //         '#Software_developments',
-                  //         style: Theme.of(context)
-                  //             .textTheme
-                  //             .caption
-                  //             ?.copyWith(color: Colors.blue, fontSize: 14),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsetsDirectional.only(end: 5),
-                  //   child: SizedBox(
-                  //     height: 20,
-                  //     child: MaterialButton(
-                  //       minWidth: 1,
-                  //       padding: EdgeInsets.zero,
-                  //       onPressed: () {},
-                  //       child: Text(
-                  //         '#Mobile_developments',
-                  //         style: Theme.of(context)
-                  //             .textTheme
-                  //             .caption
-                  //             ?.copyWith(color: Colors.blue, fontSize: 14),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsetsDirectional.only(end: 5),
-                  //   child: SizedBox(
-                  //     height: 20,
-                  //     child: MaterialButton(
-                  //       minWidth: 1,
-                  //       padding: EdgeInsets.zero,
-                  //       onPressed: () {},
-                  //       child: Text(
-                  //         '#Flutter_developments',
-                  //         style: Theme.of(context)
-                  //             .textTheme
-                  //             .caption
-                  //             ?.copyWith(color: Colors.blue, fontSize: 14),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsetsDirectional.only(end: 5),
-                  //   child: SizedBox(
-                  //     height: 20,
-                  //     child: MaterialButton(
-                  //       minWidth: 1,
-                  //       padding: EdgeInsets.zero,
-                  //       onPressed: () {},
-                  //       child: Text(
-                  //         '#Flutter_developments',
-                  //         style: Theme.of(context)
-                  //             .textTheme
-                  //             .caption
-                  //             ?.copyWith(color: Colors.blue, fontSize: 14),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
+            // const SizedBox(
+            //   width: double.infinity,
+            //   // child: Wrap(
+            //   //   children: const [
+            //   //     // Padding(
+            //   //     //   padding: const EdgeInsetsDirectional.only(end: 5),
+            //   //     //   child: SizedBox(
+            //   //     //     height: 20,
+            //   //     //     child: MaterialButton(
+            //   //     //       minWidth: 1,
+            //   //     //       padding: EdgeInsets.zero,
+            //   //     //       onPressed: () {},
+            //   //     //       child: Text(
+            //   //     //         '#Software_developments',
+            //   //     //         style: Theme.of(context)
+            //   //     //             .textTheme
+            //   //     //             .caption
+            //   //     //             ?.copyWith(color: Colors.blue, fontSize: 14),
+            //   //     //       ),
+            //   //     //     ),
+            //   //     //   ),
+            //   //     // ),
+            //   //     // Padding(
+            //   //     //   padding: const EdgeInsetsDirectional.only(end: 5),
+            //   //     //   child: SizedBox(
+            //   //     //     height: 20,
+            //   //     //     child: MaterialButton(
+            //   //     //       minWidth: 1,
+            //   //     //       padding: EdgeInsets.zero,
+            //   //     //       onPressed: () {},
+            //   //     //       child: Text(
+            //   //     //         '#Mobile_developments',
+            //   //     //         style: Theme.of(context)
+            //   //     //             .textTheme
+            //   //     //             .caption
+            //   //     //             ?.copyWith(color: Colors.blue, fontSize: 14),
+            //   //     //       ),
+            //   //     //     ),
+            //   //     //   ),
+            //   //     // ),
+            //   //     // Padding(
+            //   //     //   padding: const EdgeInsetsDirectional.only(end: 5),
+            //   //     //   child: SizedBox(
+            //   //     //     height: 20,
+            //   //     //     child: MaterialButton(
+            //   //     //       minWidth: 1,
+            //   //     //       padding: EdgeInsets.zero,
+            //   //     //       onPressed: () {},
+            //   //     //       child: Text(
+            //   //     //         '#Flutter_developments',
+            //   //     //         style: Theme.of(context)
+            //   //     //             .textTheme
+            //   //     //             .caption
+            //   //     //             ?.copyWith(color: Colors.blue, fontSize: 14),
+            //   //     //       ),
+            //   //     //     ),
+            //   //     //   ),
+            //   //     // ),
+            //   //     // Padding(
+            //   //     //   padding: const EdgeInsetsDirectional.only(end: 5),
+            //   //     //   child: SizedBox(
+            //   //     //     height: 20,
+            //   //     //     child: MaterialButton(
+            //   //     //       minWidth: 1,
+            //   //     //       padding: EdgeInsets.zero,
+            //   //     //       onPressed: () {},
+            //   //     //       child: Text(
+            //   //     //         '#Flutter_developments',
+            //   //     //         style: Theme.of(context)
+            //   //     //             .textTheme
+            //   //     //             .caption
+            //   //     //             ?.copyWith(color: Colors.blue, fontSize: 14),
+            //   //     //       ),
+            //   //     //     ),
+            //   //     //   ),
+            //   //     // ),
+            //   //   ],
+            //   // ),
+            // ),
             if (model.postImage != '')
               Padding(
                 padding: const EdgeInsets.only(top: 10),
@@ -261,7 +271,7 @@ class FeedsScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            '0',
+                            '${SocialCubit.get(context).likes[index]}',
                             style: Theme.of(context).textTheme.caption,
                           ),
                         ],
@@ -306,12 +316,14 @@ class FeedsScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      navigateTo(context,  CommentScreen());
+                    },
                     child: Row(children: [
-                       CircleAvatar(
+                      CircleAvatar(
                         radius: 18,
-                        backgroundImage: NetworkImage(SocialCubit.get
-                          (context).userModel!.image!),
+                        backgroundImage: NetworkImage(
+                            SocialCubit.get(context).userModel!.image!),
                       ),
                       const SizedBox(width: 15),
                       Text(
@@ -325,7 +337,10 @@ class FeedsScreen extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    SocialCubit.get(context)
+                        .likePost(SocialCubit.get(context).postsId[index]);
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
