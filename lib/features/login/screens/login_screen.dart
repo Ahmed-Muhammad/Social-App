@@ -31,9 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
             showToast(message: state.error, state: ToastStates.error);
           }
           if (state is LoginSuccessState) {
-           CacheHelper.saveData(key: 'uid', value: state.uid).then((value) {
-             navigateAndFinish(context, const HomeScreen());
-           } );
+            CacheHelper.saveData(key: 'uid', value: state.uid)
+                .then((value) {
+              navigateAndFinish(context, const HomeScreen());
+            });
           }
         },
         builder: (context, state) {
@@ -50,19 +51,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           'LOGIN',
-                          style:
-                              Theme.of(context).textTheme.headline5?.copyWith(
-                                    fontSize: 45,
-                                    fontWeight: FontWeight.w900,
-                                  ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              ?.copyWith(
+                                fontSize: 45,
+                                fontWeight: FontWeight.w900,
+                              ),
                         ),
                         Text(
                           'login now to connect with your friends ',
-                          style:
-                              Theme.of(context).textTheme.bodyText1?.copyWith(
-                                    color: Colors.grey,
-                                    fontSize: 18,
-                                  ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(
+                                color: Colors.grey,
+                                fontSize: 18,
+                              ),
                         ),
                         const SizedBox(
                           height: 15,
@@ -98,7 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           suffix: LoginCubit.get(context).suffix,
                           suffixPressed: () {
                             //using Login cubit
-                            LoginCubit.get(context).changePasswordVisibility();
+                            LoginCubit.get(context)
+                                .changePasswordVisibility();
                           },
                           onSubmit: (value) {
                             if (formKey.currentState!.validate() == true) {
@@ -114,11 +120,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         ConditionalBuilder(
                           condition: state is! LoginLoadingState,
-                          fallback: (context) =>
-                              const Center(child: CircularProgressIndicator()),
+                          fallback: (context) => const Center(
+                              child: CircularProgressIndicator()),
                           builder: (context) => defaultButton(
                             function: () {
-                              if (formKey.currentState!.validate() == true) {
+                              if (formKey.currentState!.validate() ==
+                                  true) {
                                 LoginCubit.get(context).userLogin(
                                   email: emailController.text,
                                   password: passwordController.text,
@@ -146,13 +153,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             const Text(
                               "Don't have an account ?",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  TextStyle(fontWeight: FontWeight.bold),
                             ),
                             defaultTextButton(
                                 text: 'Register now',
                                 function: () {
                                   // ignore: prefer_const_constructors
-                                  navigateAndFinish(context, RegisterScreen());
+                                  navigateAndFinish(
+                                      context, RegisterScreen());
                                 }),
                           ],
                         )

@@ -26,52 +26,56 @@ class FeedsScreen extends StatelessWidget {
         print('length in feeds   ${POSTS.length}');
         return ConditionalBuilder(
           condition: POSTS.isNotEmpty ,
-          builder: (context) => SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(children: [
-              Card(
-                margin: const EdgeInsets.all(8),
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                elevation: 5,
-                child: Stack(
-                  alignment: AlignmentDirectional.bottomEnd,
-                  children: [
-                    const Image(
-                      image: NetworkImage(
-                        'https://img.freepik'
-                        '.com/free-vector/pop-art-girl-pointing-something_1441-108.jpg?t=st=1647592427~exp=1647593027~hmac=1581e36c8ed28aee564255387d82185ec93feafb83d3470de036f5da4b812d2b&w=996',
+          builder: (context) => RefreshIndicator(
+            onRefresh: cubit.refresh,
+            displacement: 100,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(children: [
+                Card(
+                  margin: const EdgeInsets.all(8),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  elevation: 5,
+                  child: Stack(
+                    alignment: AlignmentDirectional.bottomEnd,
+                    children: [
+                      const Image(
+                        image: NetworkImage(
+                          'https://img.freepik'
+                          '.com/free-vector/pop-art-girl-pointing-something_1441-108.jpg?t=st=1647592427~exp=1647593027~hmac=1581e36c8ed28aee564255387d82185ec93feafb83d3470de036f5da4b812d2b&w=996',
+                        ),
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 250,
                       ),
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: 250,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Communicate',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Communicate',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              ListView.separated(
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 8),
-                itemCount: POSTS.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return buildPostItem(context, POSTS[index], index);
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              )
-            ]),
+                ListView.separated(
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 8),
+                  itemCount: POSTS.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return buildPostItem(context, POSTS[index], index);
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                )
+              ]),
+            ),
           ),
           fallback: (context) =>
               const Center(child: CircularProgressIndicator()),

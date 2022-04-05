@@ -331,7 +331,7 @@ class SocialCubit extends Cubit<SocialState> {
 
   List postsId = [];
 
-  void getPosts() {
+  void getPosts()  {
     FirebaseFirestore.instance.collection('posts').get().then((value) {
       for (var element in value.docs) {
         element.reference.collection('likes').get().then((value) {
@@ -348,6 +348,11 @@ class SocialCubit extends Cubit<SocialState> {
     }).catchError((error) {
       emit(SocialGetPostsErrorState(error.toString()));
     });
+  }
+
+  Future<void> refresh(){
+    return Future.delayed(const Duration(seconds: 1));
+
   }
 
 //---------------likes toggle ----------------
