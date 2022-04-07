@@ -19,8 +19,8 @@ class ChatsScreen extends StatelessWidget {
           condition: SocialCubit.get(context).users.isNotEmpty,
           builder: (context) => ListView.separated(
             physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) => buildChatItem(
-                context, SocialCubit.get(context).users[index]),
+            itemBuilder: (context, index) =>
+                buildChatItem(context, SocialCubit.get(context).users[index]),
             separatorBuilder: (context, index) => myDivider(),
             itemCount: SocialCubit.get(context).users.length,
           ),
@@ -40,6 +40,7 @@ class ChatsScreen extends StatelessWidget {
         );
       },
       child: Padding(
+        
         padding: const EdgeInsets.all(20),
         child: Row(
           children: [
@@ -50,8 +51,10 @@ class ChatsScreen extends StatelessWidget {
             const SizedBox(width: 15),
             Text(
               model.name!,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  fontSize: 16, color: Colors.black, height: 1.3),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(fontSize: 16, color: Colors.black, height: 1.3),
             ),
           ],
         ),

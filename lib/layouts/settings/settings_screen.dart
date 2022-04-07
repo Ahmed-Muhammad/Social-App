@@ -33,14 +33,14 @@ class SettingsScreen extends StatelessWidget {
                         child: Container(
                           height: 250,
                           width: double.infinity,
-                          decoration:  BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(8),
                               topRight: Radius.circular(8),
                             ),
                             image: DecorationImage(
-                                fit: BoxFit.cover, image: NetworkImage
-                              (userModel!.cover!)),
+                                fit: BoxFit.cover,
+                                image: NetworkImage(userModel!.cover!)),
                           ),
                         ),
                       ),
@@ -104,7 +104,8 @@ class SettingsScreen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
-                                    ?.copyWith(fontSize: 15, color: Colors.grey),
+                                    ?.copyWith(
+                                        fontSize: 15, color: Colors.grey),
                               ),
                             ],
                           ),
@@ -129,7 +130,8 @@ class SettingsScreen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
-                                    ?.copyWith(fontSize: 15, color: Colors.grey),
+                                    ?.copyWith(
+                                        fontSize: 15, color: Colors.grey),
                               ),
                             ],
                           ),
@@ -154,7 +156,8 @@ class SettingsScreen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
-                                    ?.copyWith(fontSize: 15, color: Colors.grey),
+                                    ?.copyWith(
+                                        fontSize: 15, color: Colors.grey),
                               ),
                             ],
                           ),
@@ -179,7 +182,8 @@ class SettingsScreen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
-                                    ?.copyWith(fontSize: 15, color: Colors.grey),
+                                    ?.copyWith(
+                                        fontSize: 15, color: Colors.grey),
                               ),
                             ],
                           ),
@@ -193,28 +197,28 @@ class SettingsScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(left : 10 , right: 10),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
                         child: OutlinedButton(
-                          child:  const Text('Add photos'),
-                          onPressed: (){},
+                          child: const Text('Add photos'),
+                          onPressed: () {},
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only( right: 10),
+                      
+                      padding: const EdgeInsets.only(right: 10),
                       child: OutlinedButton(
-
-                        child: const Icon(IconBroken.Edit , size: 16,),
-                        onPressed: (){
-                          navigateTo(context,  EditProfileScreen());
+                        child: const Icon(
+                          IconBroken.Edit,
+                          size: 16,
+                        ),
+                        onPressed: () {
+                          navigateTo(context, EditProfileScreen());
                         },
                       ),
                     ),
-
-
                   ],
                 ),
-
               ],
             ),
           ),
